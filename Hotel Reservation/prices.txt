@@ -1,0 +1,10 @@
+1 Standard 100
+2 Standard 100
+3 Standard 100
+4 Deluxe 200
+5 Deluxe 200
+6 Deluxe 200
+7 Suite 300
+8 Suite 300
+9 Suite 300
+10 Suite 300
