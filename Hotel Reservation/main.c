@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <direct.h>
 
 #define MAX_ROOMS 50
 #define MAX_NAME 50
@@ -10,10 +9,10 @@
 #define PASS_FILE "data/admin_pass.txt"
 #define PRICE_FILE "data/prices.txt"
 
-// --- ساختار اتاق ---
 typedef struct {
     int id;
     int reserved;
+    int reservationID;
     char customerName[MAX_NAME];
     char phone[MAX_PHONE];
     char reservedDate[11];
@@ -22,12 +21,14 @@ typedef struct {
 } Room;
 
 Room hotel[MAX_ROOMS];
+int nextReservationID = 1;
 
-// --- خالی کردن اتاق‌ها ---
+// --- Initialize rooms ---
 void initRooms() {
     for (int i = 0; i < MAX_ROOMS; i++) {
         hotel[i].id = i + 1;
         hotel[i].reserved = 0;
+        hotel[i].reservationID = 0;
         strcpy(hotel[i].customerName, "");
         strcpy(hotel[i].phone, "");
         strcpy(hotel[i].reservedDate, "");
@@ -36,7 +37,7 @@ void initRooms() {
     }
 }
 
-// --- خواندن پسورد ---
+// --- Admin password ---
 int readAdminPass(char* pass) {
     FILE* f = fopen(PASS_FILE, "r");
     if (!f) return 0;
@@ -45,7 +46,6 @@ int readAdminPass(char* pass) {
     return 1;
 }
 
-// --- تغییر پسورد ---
 int changeAdminPass(const char* newPass) {
     FILE* f = fopen(PASS_FILE, "w");
     if (!f) return 0;
@@ -54,45 +54,39 @@ int changeAdminPass(const char* newPass) {
     return 1;
 }
 
-// --- خواندن نوع و قیمت اتاق‌ها ---
+// --- Load room prices ---
 void loadRoomPrices() {
     FILE* f = fopen(PRICE_FILE, "r");
     if (!f) {
         printf("❌ Could not read prices file!\n");
         return;
     }
-
     int id, price;
     char type[20];
     while (fscanf(f, "%d %s %d", &id, type, &price) == 3) {
         hotel[id - 1].pricePerNight = price;
         strcpy(hotel[id - 1].type, type);
     }
-
     fclose(f);
 }
 
-// --- منوی مشتری ---
+// --- Customer Reserve ---
 void customerMenu() {
-    char name[MAX_NAME], phone[MAX_PHONE];
+    char name[MAX_NAME], phone[MAX_PHONE], date[11];
     int roomId;
-    char date[11];
 
     printf("\n--- Customer Login ---\n");
     printf("Enter your phone: ");
     scanf(" %[^\n]", phone);
-
     printf("Enter your name: ");
     scanf(" %[^\n]", name);
-
     printf("Enter reservation date (YYYY-MM-DD): ");
     scanf(" %[^\n]", date);
 
     printf("\nAvailable rooms on %s:\n", date);
     for (int i = 0; i < MAX_ROOMS; i++) {
-        if (strcmp(hotel[i].reservedDate, date) != 0) {
+        if (strcmp(hotel[i].reservedDate, date) != 0)
             printf("Room %d %s - $%d\n", hotel[i].id, hotel[i].type, hotel[i].pricePerNight);
-        }
     }
 
     printf("\nEnter room ID to reserve: ");
@@ -104,163 +98,172 @@ void customerMenu() {
     }
 
     if (strcmp(hotel[roomId - 1].reservedDate, date) == 0) {
-        printf("Room already reserved on this date!\n");
+        printf("❌ Room already reserved on this date!\n");
         return;
     }
 
     hotel[roomId - 1].reserved = 1;
+    hotel[roomId - 1].reservationID = nextReservationID++;
     strcpy(hotel[roomId - 1].customerName, name);
     strcpy(hotel[roomId - 1].phone, phone);
     strcpy(hotel[roomId - 1].reservedDate, date);
 
-    printf("\n✅ Room %d successfully reserved for %s on %s!\n", roomId, name, date);
+    printf("\n✅ Room %d reserved for %s on %s\n", roomId, name, date);
+    printf("Your Reservation ID is: %d\n", hotel[roomId - 1].reservationID);
 }
 
-// --- مدیریت اتاق‌ها بر اساس تاریخ ---
+// --- View/Cancel Reservations ---
+void viewOrCancelReservations() {
+    char phone[MAX_PHONE];
+    printf("Enter your phone to view reservations: ");
+    scanf(" %[^\n]", phone);
+
+    int found = 0;
+    for (int i = 0; i < MAX_ROOMS; i++) {
+        if (hotel[i].reserved && strcmp(hotel[i].phone, phone) == 0) {
+            found = 1;
+            printf("Reservation ID: %d, Room %d %s on %s\n",
+                hotel[i].reservationID, hotel[i].id,
+                hotel[i].type, hotel[i].reservedDate);
+        }
+    }
+    if (!found) {
+        printf("No reservations found for this phone.\n");
+        return;
+    }
+
+    int cancelID;
+    printf("Enter Reservation ID to cancel (0 to skip): ");
+    scanf("%d", &cancelID);
+    if (cancelID == 0) return;
+
+    for (int i = 0; i < MAX_ROOMS; i++) {
+        if (hotel[i].reserved && hotel[i].reservationID == cancelID) {
+            hotel[i].reserved = 0;
+            hotel[i].reservationID = 0;
+            strcpy(hotel[i].customerName, "");
+            strcpy(hotel[i].phone, "");
+            strcpy(hotel[i].reservedDate, "");
+            printf("✅ Reservation canceled successfully.\n");
+            return;
+        }
+    }
+    printf("Reservation ID not found.\n");
+}
+
+// --- Admin functions ---
 void manageRoomsByDate() {
     char date[11];
-    printf("Enter date to manage rooms (YYYY-MM-DD): ");
+    printf("Enter date (YYYY-MM-DD): ");
     scanf(" %[^\n]", date);
 
     printf("\n--- Rooms on %s ---\n", date);
     for (int i = 0; i < MAX_ROOMS; i++) {
-        if (strcmp(hotel[i].reservedDate, date) == 0) {
+        if (strcmp(hotel[i].reservedDate, date) == 0)
             printf("Room %d %s -> %s (%s) - $%d [Reserved]\n",
-                hotel[i].id, hotel[i].type,
-                hotel[i].customerName, hotel[i].phone,
-                hotel[i].pricePerNight);
-        }
-        else {
-            printf("Room %d %s - $%d [Free]\n",
-                hotel[i].id, hotel[i].type, hotel[i].pricePerNight);
-        }
-    }
-
-    int roomId, action;
-    printf("\nEnter Room ID to modify (0 to cancel): ");
-    scanf("%d", &roomId);
-    if (roomId == 0) return;
-    if (roomId < 1 || roomId > MAX_ROOMS) {
-        printf("Invalid Room ID!\n");
-        return;
-    }
-
-    printf("Choose action: 1. Mark as Free  2. Mark as Reserved\n");
-    scanf("%d", &action);
-    if (action == 1) {
-        hotel[roomId - 1].reserved = 0;
-        strcpy(hotel[roomId - 1].customerName, "");
-        strcpy(hotel[roomId - 1].phone, "");
-        strcpy(hotel[roomId - 1].reservedDate, "");
-        printf("Room %d is now Free.\n", roomId);
-    }
-    else if (action == 2) {
-        hotel[roomId - 1].reserved = 1;
-        printf("Room %d is now Reserved (no customer info yet).\n", roomId);
-    }
-    else {
-        printf("Invalid action!\n");
+                hotel[i].id, hotel[i].type, hotel[i].customerName,
+                hotel[i].phone, hotel[i].pricePerNight);
+        else
+            printf("Room %d %s - $%d [Free]\n", hotel[i].id, hotel[i].type, hotel[i].pricePerNight);
     }
 }
 
-// --- منوی ادمین ---
-void adminMenu() {
-    char pass[50], newPass[50];
-    printf("\n--- Admin Login ---\n");
-    printf("Enter password: ");
-    scanf(" %[^\n]", pass);
-
-    char correctPass[50];
-    if (!readAdminPass(correctPass)) {
-        printf("❌ Could not read password file!\n");
-        return;
-    }
-
-    if (strcmp(pass, correctPass) != 0) {
-        printf("❌ Wrong password!\n");
-        return;
-    }
-
+// --- Search Reservations ---
+void searchReservations() {
     int choice;
-    while (1) {
-        printf("\n--- Admin Menu ---\n");
-        printf("1. View Reservations\n");
-        printf("2. Change Password\n");
-        printf("3. Manage Rooms by Date\n");
-        printf("4. Logout\n");
-        printf("Choose: ");
-        scanf("%d", &choice);
+    char name[MAX_NAME], phone[MAX_PHONE], date[11];
+    printf("\nSearch by:\n1. Customer Name\n2. Phone\n3. Date\nChoose: ");
+    scanf("%d", &choice);
 
-        switch (choice) {
-        case 1:
-            printf("\n--- Reservations List ---\n");
-            for (int i = 0; i < MAX_ROOMS; i++) {
-                if (hotel[i].reserved) {
-                    printf("Room %d %s on %s -> %s (%s) - $%d\n",
-                        hotel[i].id, hotel[i].type, hotel[i].reservedDate,
-                        hotel[i].customerName, hotel[i].phone, hotel[i].pricePerNight);
-                }
+    int found = 0;
+    if (choice == 1) {
+        printf("Enter customer name: "); scanf(" %[^\n]", name);
+        for (int i = 0; i < MAX_ROOMS; i++)
+            if (hotel[i].reserved && strcmp(hotel[i].customerName, name) == 0) {
+                printf("ID:%d Room:%d %s Date:%s Price:$%d\n",
+                    hotel[i].reservationID, hotel[i].id,
+                    hotel[i].type, hotel[i].reservedDate, hotel[i].pricePerNight);
+                found = 1;
             }
-            break;
-        case 2:
-            printf("Enter new password: ");
-            scanf(" %[^\n]", newPass);
-            if (changeAdminPass(newPass))
-                printf("✅ Password changed successfully!\n");
-            else
-                printf("❌ Could not write to file!\n");
-            break;
-        case 3:
-            manageRoomsByDate();
-            break;
-        case 4:
-            return;
-        default:
-            printf("Invalid choice!\n");
-        }
     }
+    else if (choice == 2) {
+        printf("Enter phone: "); scanf(" %[^\n]", phone);
+        for (int i = 0; i < MAX_ROOMS; i++)
+            if (hotel[i].reserved && strcmp(hotel[i].phone, phone) == 0) {
+                printf("ID:%d Room:%d %s Date:%s Price:$%d\n",
+                    hotel[i].reservationID, hotel[i].id,
+                    hotel[i].type, hotel[i].reservedDate, hotel[i].pricePerNight);
+                found = 1;
+            }
+    }
+    else if (choice == 3) {
+        printf("Enter date (YYYY-MM-DD): "); scanf(" %[^\n]", date);
+        for (int i = 0; i < MAX_ROOMS; i++)
+            if (hotel[i].reserved && strcmp(hotel[i].reservedDate, date) == 0) {
+                printf("ID:%d Room:%d %s Customer:%s Phone:%s Price:$%d\n",
+                    hotel[i].reservationID, hotel[i].id,
+                    hotel[i].type, hotel[i].customerName, hotel[i].phone, hotel[i].pricePerNight);
+                found = 1;
+            }
+    }
+    if (!found) printf("No reservations found.\n");
 }
 
-// --- تابع اصلی ---
-int main() {
-    _mkdir("data");
+// --- Revenue Report ---
+void revenueReport() {
+    char date[11];
+    printf("Enter date for daily revenue (YYYY-MM-DD): ");
+    scanf(" %[^\n]", date);
 
-    FILE* f = fopen(PASS_FILE, "r");
-    if (!f) {
-        f = fopen(PASS_FILE, "w");
-        if (f) {
-            fprintf(f, "admin123");
-            fclose(f);
-            printf("Admin password file created with default password: admin123\n");
-        }
-        else {
-            printf("❌ Could not create password file!\n");
-            return 1;
-        }
-    }
-    else {
-        fclose(f);
-    }
+    int total = 0;
+    for (int i = 0; i < MAX_ROOMS; i++)
+        if (hotel[i].reserved && strcmp(hotel[i].reservedDate, date) == 0)
+            total += hotel[i].pricePerNight;
 
-    initRooms();
-    loadRoomPrices();
+    printf("Total revenue on %s: $%d\n", date, total);
+}
+
+// --- Admin Menu ---
+void adminMenu() {
+    char pass[50]; if (!readAdminPass(pass)) { printf("❌ Cannot read admin pass!\n"); return; }
+    char input[50]; printf("Enter admin password: "); scanf(" %[^\n]", input);
+    if (strcmp(input, pass) != 0) { printf("❌ Wrong password!\n"); return; }
 
     int choice;
-    while (1) {
-        printf("\n=== Hotel Reservation System ===\n");
-        printf("1. Customer Login\n");
-        printf("2. Admin Login\n");
-        printf("3. Exit\n");
-        printf("Choose option: ");
+    do {
+        printf("\n--- Admin Menu ---\n");
+        printf("1. Manage rooms by date\n2. Search Reservations\n3. Revenue Report\n4. Change Admin Pass\n5. Exit\nChoose: ");
         scanf("%d", &choice);
-
         switch (choice) {
-        case 1: customerMenu(); break;
-        case 2: adminMenu(); break;
-        case 3: exit(0);
+        case 1: manageRoomsByDate(); break;
+        case 2: searchReservations(); break;
+        case 3: revenueReport(); break;
+        case 4: {
+            char newPass[50]; printf("Enter new admin pass: "); scanf(" %[^\n]", newPass);
+            if (changeAdminPass(newPass)) printf("✅ Password changed!\n"); else printf("❌ Failed!\n");
+        } break;
+        case 5: break;
         default: printf("Invalid choice!\n");
         }
-    }
+    } while (choice != 5);
+}
 
+// --- Main Menu ---
+int main() {
+    initRooms();
+    loadRoomPrices();
+    int choice;
+    do {
+        printf("\n=== Hotel Reservation System ===\n");
+        printf("1. Customer Login\n2. View/Cancel Reservations\n3. Admin Login\n4. Exit\nChoose: ");
+        scanf("%d", &choice);
+        switch (choice) {
+        case 1: customerMenu(); break;
+        case 2: viewOrCancelReservations(); break;
+        case 3: adminMenu(); break;
+        case 4: printf("Goodbye!\n"); break;
+        default: printf("Invalid choice!\n");
+        }
+    } while (choice != 4);
     return 0;
 }
