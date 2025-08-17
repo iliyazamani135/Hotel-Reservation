@@ -1,52 +1,100 @@
-struct Room rooms[50] = {
-    {1, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {2, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {3, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {4, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {5, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {6, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {7, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {8, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {9, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {10, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {11, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {12, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {13, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {14, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {15, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {16, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {17, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {18, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {19, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {20, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {21, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {22, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {23, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {24, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {25, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {26, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {27, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {28, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {29, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {30, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {31, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {32, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {33, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {34, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {35, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {36, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {37, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {38, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {39, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {40, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {41, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {42, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {43, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {44, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {45, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {46, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {47, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
-    {48, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
-    {49, "Single", 100, "1 Bed, TV, WiFi", 0},
-    {50, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0}
-};
+1 Single 100 1 Bed,TV,WiFi
+2 Double 150 2 Beds,TV,WiFi,Fridge
+3 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+4 Single 100 1 Bed,TV,WiFi
+5 Double 150 2 Beds,TV,WiFi,Fridge
+6 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+7 Single 100 1 Bed,TV,WiFi
+8 Double 150 2 Beds,TV,WiFi,Fridge
+9 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+10 Single 100 1 Bed,TV,WiFi
+11 Double 150 2 Beds,TV,WiFi,Fridge
+12 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+13 Single 100 1 Bed,TV,WiFi
+14 Double 150 2 Beds,TV,WiFi,Fridge
+15 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+16 Single 100 1 Bed,TV,WiFi
+17 Double 150 2 Beds,TV,WiFi,Fridge
+18 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+19 Single 100 1 Bed,TV,WiFi
+20 Double 150 2 Beds,TV,WiFi,Fridge
+21 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+22 Single 100 1 Bed,TV,WiFi
+23 Double 150 2 Beds,TV,WiFi,Fridge
+24 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+25 Single 100 1 Bed,TV,WiFi
+26 Double 150 2 Beds,TV,WiFi,Fridge
+27 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+28 Single 100 1 Bed,TV,WiFi
+29 Double 150 2 Beds,TV,WiFi,Fridge
+30 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+31 Single 100 1 Bed,TV,WiFi
+32 Double 150 2 Beds,TV,WiFi,Fridge
+33 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+34 Single 100 1 Bed,TV,WiFi
+35 Double 150 2 Beds,TV,WiFi,Fridge
+36 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+37 Single 100 1 Bed,TV,WiFi
+38 Double 150 2 Beds,TV,WiFi,Fridge
+39 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+40 Single 100 1 Bed,TV,WiFi
+41 Double 150 2 Beds,TV,WiFi,Fridge
+42 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+43 Single 100 1 Bed,TV,WiFi
+44 Double 150 2 Beds,TV,WiFi,Fridge
+45 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+46 Single 100 1 Bed,TV,WiFi
+47 Double 150 2 Beds,TV,WiFi,Fridge
+48 Suite 300 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath
+49 Single 100 1 Bed,TV,WiFi
+50 Double 150 2 Beds,TV,WiFi,Fridge
+51 Single 110 1 Bed,TV,WiFi,AC
+52 Double 160 2 Beds,TV,WiFi,Fridge,AC
+53 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+54 Single 110 1 Bed,TV,WiFi,AC
+55 Double 160 2 Beds,TV,WiFi,Fridge,AC
+56 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+57 Single 110 1 Bed,TV,WiFi,AC
+58 Double 160 2 Beds,TV,WiFi,Fridge,AC
+59 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+60 Single 110 1 Bed,TV,WiFi,AC
+61 Double 160 2 Beds,TV,WiFi,Fridge,AC
+62 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+63 Single 110 1 Bed,TV,WiFi,AC
+64 Double 160 2 Beds,TV,WiFi,Fridge,AC
+65 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+66 Single 110 1 Bed,TV,WiFi,AC
+67 Double 160 2 Beds,TV,WiFi,Fridge,AC
+68 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+69 Single 110 1 Bed,TV,WiFi,AC
+70 Double 160 2 Beds,TV,WiFi,Fridge,AC
+71 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+72 Single 110 1 Bed,TV,WiFi,AC
+73 Double 160 2 Beds,TV,WiFi,Fridge,AC
+74 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+75 Single 110 1 Bed,TV,WiFi,AC
+76 Double 160 2 Beds,TV,WiFi,Fridge,AC
+77 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+78 Single 110 1 Bed,TV,WiFi,AC
+79 Double 160 2 Beds,TV,WiFi,Fridge,AC
+80 Suite 310 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC
+81 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+82 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
+83 Suite 320 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC,MiniBar
+84 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+85 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
+86 Suite 320 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC,MiniBar
+87 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+88 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
+89 Suite 320 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC,MiniBar
+90 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+91 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
+92 Suite 320 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC,MiniBar
+93 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+94 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
+95 Suite 320 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC,MiniBar
+96 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+97 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
+98 Suite 320 2 Beds,TV,WiFi,Fridge,Balcony,Private Bath,AC,MiniBar
+99 Single 120 1 Bed,TV,WiFi,AC,MiniBar
+100 Double 170 2 Beds,TV,WiFi,Fridge,AC,MiniBar
