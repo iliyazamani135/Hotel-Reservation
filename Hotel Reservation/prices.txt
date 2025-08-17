@@ -1,50 +1,52 @@
-1 Single 100
-2 Double 150
-3 Suite 300
-4 Single 100
-5 Double 150
-6 Suite 300
-7 Single 100
-8 Double 150
-9 Suite 300
-10 Single 100
-11 Double 150
-12 Suite 300
-13 Single 100
-14 Double 150
-15 Suite 300
-16 Single 100
-17 Double 150
-18 Suite 300
-19 Single 100
-20 Double 150
-21 Suite 300
-22 Single 100
-23 Double 150
-24 Suite 300
-25 Single 100
-26 Double 150
-27 Suite 300
-28 Single 100
-29 Double 150
-30 Suite 300
-31 Single 100
-32 Double 150
-33 Suite 300
-34 Single 100
-35 Double 150
-36 Suite 300
-37 Single 100
-38 Double 150
-39 Suite 300
-40 Single 100
-41 Double 150
-42 Suite 300
-43 Single 100
-44 Double 150
-45 Suite 300
-46 Single 100
-47 Double 150
-48 Suite 300
-49 Single 100
-50 Double 150
+struct Room rooms[50] = {
+    {1, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {2, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {3, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {4, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {5, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {6, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {7, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {8, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {9, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {10, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {11, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {12, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {13, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {14, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {15, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {16, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {17, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {18, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {19, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {20, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {21, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {22, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {23, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {24, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {25, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {26, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {27, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {28, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {29, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {30, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {31, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {32, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {33, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {34, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {35, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {36, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {37, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {38, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {39, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {40, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {41, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {42, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {43, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {44, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {45, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {46, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {47, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0},
+    {48, "Suite", 300, "2 Beds, TV, WiFi, Fridge, Balcony, Private Bath", 0},
+    {49, "Single", 100, "1 Bed, TV, WiFi", 0},
+    {50, "Double", 150, "2 Beds, TV, WiFi, Fridge", 0}
+};
