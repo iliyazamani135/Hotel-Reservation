@@ -22,4 +22,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="admin_pass.txt" />
+    <Text Include="prices.txt" />
+    <Text Include="room.txt" />
+    <Text Include="booking.txt" />
+  </ItemGroup>
 </Project>

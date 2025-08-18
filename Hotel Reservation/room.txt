@@ -1,0 +1,3 @@
+1,Single,100,1 Bed TV WiFi,0
+2,Double,150,2 Beds TV WiFi Fridge,0
+3,Suite,300,2 Beds TV WiFi Kitchen,0

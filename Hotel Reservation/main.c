@@ -7,7 +7,8 @@
 #define MAX_NAME 50
 #define MAX_PHONE 15
 #define PASS_FILE "admin_pass.txt"
-#define PRICE_FILE "prices.txt"
+#define ROOM_FILE "room.txt"
+#define BOOKING_FILE "booking.txt"
 
 typedef struct {
     int id;
@@ -79,11 +80,11 @@ int changeAdminPass(const char* newPass) {
     return 1;
 }
 
-// Load prices and features
-void loadRoomPrices() {
-    FILE* f = fopen(PRICE_FILE, "r");
+// Load rooms from file
+void loadRooms() {
+    FILE* f = fopen(ROOM_FILE, "r");
     if (!f) {
-        printf("❌ Could not read prices file!\n");
+        printf("❌ Could not read rooms file!\n");
         return;
     }
 
@@ -98,10 +99,51 @@ void loadRoomPrices() {
 
         int matched = sscanf(line, "%d %19s %d %99[^\n]", &id, type, &price, features);
         if (matched >= 3 && id >= 1 && id <= MAX_ROOMS) {
+            hotel[id - 1].id = id;
             hotel[id - 1].pricePerNight = price;
             strcpy(hotel[id - 1].type, type);
             if (matched == 4) strcpy(hotel[id - 1].features, features);
             else hotel[id - 1].features[0] = '\0';
+        }
+    }
+    fclose(f);
+}
+
+// Save booking to file
+void saveBookingToFile(Room r) {
+    FILE* f = fopen(BOOKING_FILE, "a");
+    if (!f) {
+        printf("❌ Could not open booking file!\n");
+        return;
+    }
+    fprintf(f, "%d,%d,%s,%s,%s\n",
+        r.reservationID, r.id, r.customerName, r.phone, r.reservedDate);
+    fclose(f);
+}
+
+// Load bookings from file
+void loadBookings() {
+    FILE* f = fopen(BOOKING_FILE, "r");
+    if (!f) return;
+
+    char line[256];
+    while (fgets(line, sizeof(line), f)) {
+        trim_newline(line);
+        if (!line[0]) continue;
+
+        Room r;
+        if (sscanf(line, "%d,%d,%49[^,],%14[^,],%10s",
+            &r.reservationID, &r.id,
+            r.customerName, r.phone, r.reservedDate) == 5) {
+            int idx = r.id - 1;
+            hotel[idx].reserved = 1;
+            hotel[idx].reservationID = r.reservationID;
+            strcpy(hotel[idx].customerName, r.customerName);
+            strcpy(hotel[idx].phone, r.phone);
+            strcpy(hotel[idx].reservedDate, r.reservedDate);
+
+            if (r.reservationID >= nextReservationID)
+                nextReservationID = r.reservationID + 1;
         }
     }
     fclose(f);
@@ -178,6 +220,8 @@ void customerMenu() {
     strcpy(hotel[roomId - 1].phone, phone);
     strcpy(hotel[roomId - 1].reservedDate, date);
 
+    saveBookingToFile(hotel[roomId - 1]);
+
     printf("\n✅ Room %d reserved for %s on %s\nYour Reservation ID is: %d\n",
         roomId, name, date, hotel[roomId - 1].reservationID);
 }
@@ -201,15 +245,23 @@ void viewOrCancelReservations() {
     int cancelID = read_int("Enter Reservation ID to cancel (0 to skip): ");
     if (cancelID == 0) return;
 
+    FILE* f = fopen(BOOKING_FILE, "r");
+    FILE* temp = fopen("temp.txt", "w");
+
     for (int i = 0; i < MAX_ROOMS; i++) {
         if (hotel[i].reserved && hotel[i].reservationID == cancelID) {
             hotel[i].reserved = 0; hotel[i].reservationID = 0;
             hotel[i].customerName[0] = '\0'; hotel[i].phone[0] = '\0'; hotel[i].reservedDate[0] = '\0';
             printf("✅ Reservation canceled successfully.\n");
-            return;
+        }
+        else if (hotel[i].reserved) {
+            fprintf(temp, "%d,%d,%s,%s,%s\n",
+                hotel[i].reservationID, hotel[i].id,
+                hotel[i].customerName, hotel[i].phone, hotel[i].reservedDate);
         }
     }
-    printf("Reservation ID not found.\n");
+    if (f) fclose(f);
+    if (temp) { fclose(temp); remove(BOOKING_FILE); rename("temp.txt", BOOKING_FILE); }
 }
 
 // Admin
@@ -306,7 +358,8 @@ void adminMenu() {
 // Main
 int main() {
     initRooms();
-    loadRoomPrices();
+    loadRooms();
+    loadBookings();
 
     int choice;
     do {

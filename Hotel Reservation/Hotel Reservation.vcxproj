@@ -23,7 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="admin_pass.txt" />
+    <Text Include="booking.txt" />
     <Text Include="prices.txt" />
+    <Text Include="room.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
